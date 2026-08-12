@@ -73,27 +73,18 @@ Imagine Amazon.
 Different teams own different pages.
 
 ```
-Amazon
-
 Homepage       → Team A
-
 Search         → Team B
-
 Product Page   → Team C
-
 Cart           → Team D
-
 Payment        → Team E
-
 Orders         → Team F
 ```
 
 Every team can:
-
 - Deploy anytime
 - Update independently
 - Choose its own framework
-
 Yet the user sees **one application.**
 
 ---
@@ -325,14 +316,8 @@ No communication.
 Instead
 
 ```
-One Instance
-
-↓
-
+One Instance 
 Everyone imports
-
-↓
-
 Same State
 ```
 
@@ -384,15 +369,7 @@ Developer -> Build -> Combine all Microfrontends -> Deploy
 Webpack shares modules between applications.
 
 ```
-Host
-
-↓
-
-Loads
-
-↓
-
-Remote App
+Host -> Loads -> Remote App
 ```
 
 ---
@@ -403,7 +380,6 @@ Simply import modules.
 
 ```
 import Cart from "./cart";
-
 import Product from "./product";
 ```
 
@@ -418,27 +394,7 @@ All projects are built together.
 Example:
 
 ```
-Project
-
-↓
-
-CI/CD
-
-↓
-
-Build Products
-
-↓
-
-Build Cart
-
-↓
-
-Build Payment
-
-↓
-
-Deploy
+Project -> CI/CD -> Build Payment portal -> Build Cart -> Deploy
 ```
 
 ---
@@ -449,11 +405,8 @@ Deploy
 
 ```javascript
 function build() {
-
     console.log("Building A");
-
 }
-
 module.exports = { build };
 ```
 
@@ -463,11 +416,8 @@ module.exports = { build };
 
 ```javascript
 function build() {
-
     console.log("Building B");
-
 }
-
 module.exports = { build };
 ```
 
@@ -480,17 +430,11 @@ const A = require("./microfrontendA/build");
 const B = require("./microfrontendB/build");
 
 function buildAll() {
-
     console.log("Starting Build");
-
     A.build();
-
     B.build();
-
     console.log("Finished");
-
 }
-
 buildAll();
 ```
 
@@ -498,11 +442,8 @@ Output
 
 ```
 Starting Build
-
 Building A
-
 Building B
-
 Finished
 ```
 
