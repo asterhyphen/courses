@@ -484,11 +484,7 @@ Loads Cart
 
 ↓
 
-Later
-
-↓
-
-Loads Payment
+Later -> Loads Payment
 ```
 
 ---
@@ -588,11 +584,7 @@ document
 Initially
 
 ```
-Browser
-
-↓
-
-Loads A
+Browser -> Loads A
 ```
 
 Later
