@@ -498,6 +498,114 @@ Shared State Synchronizes Data
 ```
 
 ---
+# Docker Integration
+
+Docker can package each microfrontend into its own container, allowing independent builds and deployments.
+
+## Architecture
+
+```text
+                    Browser
+                       │
+                       ▼
+                 Shell / Nginx
+                       │
+        ┌──────────────┼──────────────┐
+        ▼              ▼              ▼
+   Products MF      Cart MF       Payment MF
+    Container      Container       Container
+```
+
+## Dockerfile
+
+```dockerfile
+FROM node:22-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+## Docker Compose
+
+Run multiple microfrontends together:
+
+```yaml
+services:
+  shell:
+    build: ./shell
+    ports:
+      - "3000:80"
+
+  products:
+    build: ./products
+    ports:
+      - "3001:80"
+
+  cart:
+    build: ./cart
+    ports:
+      - "3002:80"
+```
+
+Start:
+
+```bash
+docker compose up
+```
+
+## Docker + Runtime Integration
+
+Each microfrontend can be deployed independently:
+
+```text
+Products → Docker Image → Container → Deploy
+Cart     → Docker Image → Container → Deploy
+Payment  → Docker Image → Container → Deploy
+```
+
+The shell loads the required microfrontend at runtime.
+
+## Docker + Nginx
+
+Nginx can route requests to different microfrontend containers:
+
+```text
+/products → Products Container
+/cart     → Cart Container
+/payment  → Payment Container
+```
+
+## Docker + CI/CD
+
+```text
+Git Push -> CI/CD -> Docker Build -> Docker Image -> Container Registry -> Deploy
+```
+
+## Benefits
+
+- Independent deployments
+- Consistent environments
+- Isolated dependencies
+- Easy scaling
+- Works well with CI/CD
+## Complete Flow
+
+```text
+Developer -> Git -> CI/CD -> Docker Image -> Container Registry -> Docker Container -> Shell / Nginx -> Microfrontends
+```
 
 # Summary
 
