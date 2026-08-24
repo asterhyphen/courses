@@ -1,7 +1,6 @@
 Microfrontends are an architectural style where a large frontend application is divided into **small, independent applications**.
 
 Each microfrontend:
-
 - Owns one feature/module
 - Can be developed and deployed independently
 - Can use different frameworks (React, Vue, Angular, etc.)
@@ -11,16 +10,11 @@ Each microfrontend:
 # Traditional Monolithic Frontend
 
 ```
-Entire Website
-
 ┌───────────────────────────────┐
 │                               │
 │ Login                         │
 │ Dashboard                     │
-│ Profile                       │
-│ Cart                          │
-│ Payment                       │
-│ Admin                         │
+│ Profile                       │                     
 │                               │
 └───────────────────────────────┘
 
@@ -56,36 +50,10 @@ Problems:
  Microfrontend A   Microfrontend B   Microfrontend C
 
     Products           Cart            Payment
-
  Separate Team      Separate Team    Separate Team
-
  Separate Build     Separate Build   Separate Build
-
  Separate Deploy    Separate Deploy  Separate Deploy
 ```
-
----
-
-# Real World Example
-
-Imagine Amazon.
-
-Different teams own different pages.
-
-```
-Homepage       → Team A
-Search         → Team B
-Product Page   → Team C
-Cart           → Team D
-Payment        → Team E
-Orders         → Team F
-```
-
-Every team can:
-- Deploy anytime
-- Update independently
-- Choose its own framework
-Yet the user sees **one application.**
 
 ---
 
@@ -128,56 +96,20 @@ Ways to communicate:
 - Events
 - Custom Events
 - Shared State
-- Redux Store
 - Context
-- URL
 - LocalStorage
-- Module Federation Shared Modules
 
 ---
 
-# Shared State Example
-
-Imagine
+# Shared State Architecture
 
 ```
-Microfrontend A
-User clicks:
-Add to Cart
-```
-
-Now
-
-```
-Cart Count = 1
-```
-
-Microfrontend B should immediately know.
-
-Instead of direct communication,
-
-Both talk to
-
-```
-Shared State Service
-```
-
----
-
-## Architecture
-
-```
-Microfrontend A
-
-      │
+Microfrontend A 
       │ updateState()
       ▼
-
 SharedStateService
-
       ▲
       │ subscribe()
-
 Microfrontend B
 ```
 
@@ -187,7 +119,6 @@ Microfrontend B
 
 ```javascript
 class SharedStateService {
-
     constructor() {
         this.state = {};
         this.listeners = [];
@@ -198,27 +129,21 @@ class SharedStateService {
     }
 
     updateState(newState) {
-
         this.state = {
             ...this.state,
             ...newState
         };
-
         this.notifyListeners();
     }
 
     notifyListeners() {
-
         this.listeners.forEach(listener => {
             listener(this.state);
         });
-
     }
-
 }
 
 const sharedStateService = new SharedStateService();
-
 export default sharedStateService;
 ```
 
@@ -230,17 +155,12 @@ Updates the state.
 
 ```javascript
 import sharedStateService from "./SharedStateService.js";
-
 sharedStateService.subscribe((state) => {
-
     console.log("A received", state);
-
 });
 
 sharedStateService.updateState({
-
     cartCount: 1
-
 });
 ```
 
@@ -252,11 +172,8 @@ Listens for changes.
 
 ```javascript
 import sharedStateService from "./SharedStateService.js";
-
 sharedStateService.subscribe((state) => {
-
     console.log("B received", state);
-
 });
 ```
 
@@ -464,55 +381,7 @@ The browser loads pieces when required.
 ## Flow
 
 ```
-User Opens Website
-
-↓
-
-Shell Application
-
-↓
-
-Loads Dashboard
-
-↓
-
-Later
-
-↓
-
-Loads Cart
-
-↓
-
-Later -> Loads Payment
-```
-
----
-
-# Runtime Integration Diagram
-
-```
-Browser
-
-↓
-
-Shell App
-
-↓
-
-Dynamic Import
-
-↓
-
-Microfrontend A
-
-↓
-
-Microfrontend B
-
-↓
-
-Microfrontend C
+User Opens Website -> Shell Application -> Loads Dashboard -> Later -> Loads Cart -> Later -> Loads Payment
 ```
 
 ---
@@ -541,29 +410,18 @@ Microfrontend C
 
 ```html
 <body>
-
 <div id="container"></div>
-
 <button id="loadB">
-
 Load Microfrontend B
-
 </button>
 
 <script type="module">
-
 async function loadMicrofrontend(name, containerId){
-
     const container = document.getElementById(containerId);
-
     const script = document.createElement("script");
-
     script.src = `./${name}/bundle.js`;
-
     script.type = "module";
-
     container.appendChild(script);
-
 }
 
 loadMicrofrontend("microfrontendA","container");
@@ -571,31 +429,17 @@ loadMicrofrontend("microfrontendA","container");
 document
 .getElementById("loadB")
 .addEventListener("click",()=>{
-
     loadMicrofrontend("microfrontendB","container");
-
 });
-
 </script>
-
 </body>
 ```
 
-Initially
 
 ```
-Browser -> Loads A
+Browser -> Load A 
+when user click -> Load B, only B is downloaded then
 ```
-
-Later
-
-User clicks
-
-```
-Load B
-```
-
-Browser downloads only B.
 
 ---
 
@@ -642,42 +486,14 @@ project/
 ```
 Developer
 
-↓
-
 Develop Individual Feature
-
-↓
-
 Test Independently
-
-↓
-
 Choose Integration Strategy
-
-↓
-
-Build-Time
-OR
-Runtime
-
-↓
-
+Build-Time OR Runtime
 Deploy
-
-↓
-
 User Opens Website
-
-↓
-
 Shell Loads Required Microfrontends
-
-↓
-
 Microfrontends Communicate
-
-↓
-
 Shared State Synchronizes Data
 ```
 
