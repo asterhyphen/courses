@@ -1,46 +1,10 @@
-# React.js Notes — Basics to Advanced
-
-> **Purpose:** A single evolving React.js reference based on the lessons and screenshots provided so far.  
-> More screenshots can be added later and this file can be extended without changing the structure.
-
----
-
-# 1. What is React?
-
-React is a JavaScript library for building user interfaces, especially interactive web applications.
-
-The main idea is to build the UI from **small, reusable components**.
-
-Instead of writing one huge HTML page:
-
-```text
-App
- ├── Header
- ├── Navigation
- ├── Content
- │    ├── Card
- │    ├── Card
- │    └── Card
- └── Footer
-```
-
-Each part can be a React component.
-
 ### Why React?
-
-- Component-based development
-- Reusable UI
-- Declarative programming
-- Efficient UI updates
-- State management
-- Event handling
-- Easy composition of complex interfaces
+Component-based development, Reusable UI, State management
 
 ---
 
-# 2. A Basic React Component
-
-A React component can be a JavaScript function that returns JSX.
+## Basic React Component
+JS fn that returns JSX content
 
 ```jsx
 function Heading() {
@@ -50,7 +14,7 @@ function Heading() {
 export default Heading;
 ```
 
-Then it can be used inside another component:
+Use it elsewhere
 
 ```jsx
 function App() {
@@ -64,27 +28,13 @@ function App() {
 export default App;
 ```
 
-### Important
 
-Component names should normally start with an uppercase letter.
+> [!NOTE] Component names should normally start with an uppercase letter like ` <Heading /> ` as Heading is component and lower case is html elem.
 
-```jsx
-<Heading />
-```
-
-React treats `Heading` as a component.
-
-Lowercase names are generally interpreted as HTML elements:
-
-```jsx
-<div />
-<p />
-<button />
-```
 
 ---
 
-# 3. JSX
+# JSX
 
 JSX allows us to write HTML-like syntax inside JavaScript.
 
@@ -103,57 +53,23 @@ JSX is not exactly HTML. It is syntax that gets transformed into JavaScript.
 
 ---
 
-# 4. JavaScript Expressions Inside JSX
+# JS Expressions Inside JSX
 
 Use **curly braces `{}`** when you want to put a JavaScript expression inside JSX.
 
 ```jsx
 function Heading() {
     let title = "This is some heading text";
-
     return <h1>{title}</h1>;
 }
-```
-
-Without curly braces:
-
-```jsx
-<h1>title</h1>
-```
-
-React displays the literal text:
-
-```text
-title
-```
-
-With curly braces:
-
-```jsx
-<h1>{title}</h1>
-```
-
-React evaluates the JavaScript expression and displays:
-
-```text
-This is some heading text
-```
-
-### Rule
-
-```jsx
-{ JavaScript expression }
 ```
 
 Examples:
 
 ```jsx
 <h1>{name}</h1>
-
 <p>{2 + 3}</p>
-
 <p>{user.name}</p>
-
 <p>{isLoggedIn ? "Welcome" : "Please log in"}</p>
 ```
 
@@ -161,69 +77,11 @@ Examples:
 
 # 5. JSX Attributes
 
-HTML attributes are used in JSX too, but some names are different.
-
-```jsx
-<img src={avatar} />
-```
-
-For CSS classes, React uses:
+HTML attributes are used in JSX too, but some names are different like for example:
 
 ```jsx
 <div className="card">
-```
-
-instead of:
-
-```html
-<div class="card">
-```
-
----
-
-# 6. Rendering Images / Assets
-
-An image can be imported as an asset.
-
-Example:
-
-```jsx
-import cat from "./assets/images/cat.jpg";
-
-function ShowAnimal() {
-    return (
-        <div>
-            <img
-                src={cat}
-                alt="A picture of a cat"
-            />
-        </div>
-    );
-}
-
-export default ShowAnimal;
-```
-
-The important idea is:
-
-```jsx
-import cat from "./assets/images/cat.jpg";
-```
-
-and then:
-
-```jsx
-<img src={cat} alt="A picture of a cat" />
-```
-
-### Another path-based approach
-
-Depending on the React/build setup, assets may also be referenced through a path or imported dynamically.
-
-The safest modern approach in bundler-based React applications is generally to import assets:
-
-```jsx
-import logo from "./assets/logo.png";
+<div class="card"> //this is wrong
 ```
 
 ---
@@ -231,7 +89,6 @@ import logo from "./assets/logo.png";
 # 7. Components and Reusability
 
 Suppose we need three cards.
-
 Instead of writing the entire card three times:
 
 ```jsx
@@ -239,11 +96,8 @@ Instead of writing the entire card three times:
     <h2>First card</h2>
     <h3>First description</h3>
 </div>
-
 <div>
-    <h2>Second card</h2>
-    <h3>Second description</h3>
-</div>
+    <h2>Second card</h2>...
 ```
 
 we create one reusable component.
@@ -252,8 +106,8 @@ we create one reusable component.
 function Card(props) {
     return (
         <div className="card">
-            <h2>{props.h2}</h2>
-            <h3>{props.h3}</h3>
+            <h2>{props.h2Val}</h2>
+            <h3>{props.h3Val}</h3>
         </div>
     );
 }
@@ -266,18 +120,13 @@ function App() {
     return (
         <div>
             <Card
-                h2="First card's h2"
-                h3="First card's h3"
+                h2Val="First card's h2"
+                h3Val="First card's h3"
             />
 
             <Card
-                h2="Second card's h2"
-                h3="Second card's h3"
-            />
-
-            <Card
-                h2="Third card's h2"
-                h3="Third card's h3"
+                h2Val="Second card's h2"
+                h3Val="Second card's h3"
             />
         </div>
     );
@@ -285,7 +134,6 @@ function App() {
 ```
 
 This is one of the most important ideas in React:
-
 > **Build once, reuse many times.**
 
 ---
@@ -293,7 +141,6 @@ This is one of the most important ideas in React:
 # 8. Props
 
 **Props** means properties.
-
 Props allow a parent component to pass data to a child component.
 
 Parent:
@@ -302,8 +149,8 @@ Parent:
 function App() {
     return (
         <Card
-            h2="Hello"
-            h3="Welcome"
+            h2Val="Hello"
+            h3Val="Welcome"
         />
     );
 }
@@ -315,43 +162,17 @@ Child:
 function Card(props) {
     return (
         <div>
-            <h2>{props.h2}</h2>
-            <h3>{props.h3}</h3>
+            <h2>{props.h2Val}</h2>
+            <h3>{props.h3Val}</h3>
         </div>
     );
 }
 ```
 
-The data flow is:
-
-```text
-App
- |
- | h2="Hello"
- | h3="Welcome"
- ↓
-Card
- |
- ↓
-props.h2
-props.h3
-```
-
-### Props are read-only
-
-A child should not directly modify its props.
-
-Think:
-
-```text
-Parent owns data
-      ↓
-Child receives data
-```
 
 ---
 
-# 9. Props with Objects
+# Props with Objs
 
 Instead of passing individual values separately, data can be stored in an object.
 
@@ -390,25 +211,19 @@ This is useful when a component needs several related pieces of data.
 
 # 10. Destructuring Props
 
-Instead of:
-
 ```jsx
+// Instead of:
 function Card(props) {
     return <h2>{props.title}</h2>;
 }
-```
+// we can destructure:
 
-we can destructure:
-
-```jsx
 function Card({ title }) {
     return <h2>{title}</h2>;
 }
-```
 
-For multiple props:
+// For multiple props:
 
-```jsx
 function Card({ title, description }) {
     return (
         <div>
@@ -423,49 +238,31 @@ This is mostly a JavaScript syntax improvement.
 
 ---
 
-# 11. The `children` Prop
+# The `children` Prop
 
-React automatically provides a special prop called `children`.
-
-Example:
+React provides a special prop called `children` for content placed inside a component.
 
 ```jsx
 function Button({ children }) {
-    return (
-        <button>
-            {children}
-        </button>
-    );
+    return <button>{children}</button>;
 }
 ```
 
 Usage:
 
 ```jsx
-<Button>
-    Click me
-</Button>
+<Button>Click me</Button>
 ```
 
-Here:
+Here, `children` is `"Click me"`.
 
-```text
-children = "Click me"
-```
-
-Another example:
+It can also contain multiple elements:
 
 ```jsx
 function Card({ children }) {
-    return (
-        <div className="card">
-            {children}
-        </div>
-    );
+    return <div className="card">{children}</div>;
 }
 ```
-
-Usage:
 
 ```jsx
 <Card>
@@ -474,9 +271,9 @@ Usage:
 </Card>
 ```
 
-### Why `children` is useful
+### Why use `children`?
 
-It allows us to create wrapper/layout components without knowing exactly what content will be placed inside them.
+It lets wrapper components accept **any content** placed inside them.
 
 ---
 
@@ -2125,59 +1922,7 @@ Components
 
 ---
 
-# 61. Recommended Learning Order
 
-Follow this order rather than trying to memorize everything at once:
-
-```text
-1. JavaScript fundamentals
-        ↓
-2. JSX
-        ↓
-3. Components
-        ↓
-4. Props
-        ↓
-5. Children
-        ↓
-6. Events
-        ↓
-7. State / useState
-        ↓
-8. Conditional rendering
-        ↓
-9. Lists + keys
-        ↓
-10. Forms
-        ↓
-11. Lifting state
-        ↓
-12. Props drilling
-        ↓
-13. Context API
-        ↓
-14. useEffect
-        ↓
-15. Data fetching
-        ↓
-16. useRef
-        ↓
-17. useReducer
-        ↓
-18. Custom hooks
-        ↓
-19. Performance optimization
-        ↓
-20. Routing
-        ↓
-21. Authentication
-        ↓
-22. API architecture
-        ↓
-23. Testing
-        ↓
-24. Production deployment
-```
 
 ---
 
@@ -2277,44 +2022,6 @@ useEffect(() => {
 }, []);
 ```
 
----
-
-# 63. What the Screenshots Covered
-
-The supplied screenshots demonstrate these practical React concepts:
-
-- Basic React components
-- JSX
-- JavaScript variables inside JSX
-- Curly braces / JSX expressions
-- Asset imports and image rendering
-- Reusable components
-- Multiple components
-- Props
-- Passing strings through props
-- Passing object properties as props
-- `children`
-- Props drilling
-- Event handlers
-- `onClick`
-- Mouse events such as `onMouseOver`
-- Conditional rendering
-- Ternary operators
-- State
-- `useState`
-- Updating state
-- State-driven UI
-- Toggle behavior
-- Cards
-- Rendering lists of UI
-- Context API
-- Context providers
-- `useContext`
-- Custom context hooks
-- Basic component composition
-- React development workflow / browser preview
-
-The screenshots also show the progression from simple components toward state management and Context API.
 
 ---
 
