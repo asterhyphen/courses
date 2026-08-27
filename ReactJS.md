@@ -75,7 +75,7 @@ Examples:
 
 ---
 
-# 5. JSX Attributes
+# JSX Attributes
 
 HTML attributes are used in JSX too, but some names are different like for example:
 
@@ -86,7 +86,7 @@ HTML attributes are used in JSX too, but some names are different like for examp
 
 ---
 
-# 7. Components and Reusability
+# Components and Reusability
 
 Suppose we need three cards.
 Instead of writing the entire card three times:
@@ -138,7 +138,7 @@ This is one of the most important ideas in React:
 
 ---
 
-# 8. Props
+# Props
 
 **Props** means properties.
 Props allow a parent component to pass data to a child component.
@@ -209,7 +209,7 @@ This is useful when a component needs several related pieces of data.
 
 ---
 
-# 10. Destructuring Props
+# Destructuring Props
 
 ```jsx
 // Instead of:
@@ -277,7 +277,7 @@ It lets wrapper components accept **any content** placed inside them.
 
 ---
 
-# 12. Props Drilling
+# Props Drilling
 
 Props drilling happens when data needs to travel through several components just to reach a deeply nested component.
 
@@ -335,7 +335,7 @@ This leads to **Context API**.
 
 ---
 
-# 13. State
+#  State
 
 Props come from a parent.
 
@@ -363,29 +363,15 @@ setNum    → function used to update state
 
 ---
 
-# 14. `useState`
+# `useState`
 
 The basic syntax is:
 
 ```jsx
-const [state, setState] = useState(initialValue);
-```
-
-Example:
-
-```jsx
+//syn: const [state, setState] = useState(initialValue);
 const [num, setNum] = useState(0);
-```
-
-Initially:
-
-```text
-num = 0
-```
-
-After:
-
-```jsx
+// so num = 0
+//later
 setNum(1);
 ```
 
@@ -393,7 +379,7 @@ React updates the state and re-renders the component.
 
 ---
 
-# 15. State Example — Counter
+#  State Example — Counter
 
 ```jsx
 import { useState } from "react";
@@ -404,13 +390,11 @@ function App() {
     return (
         <div>
             <h1>Current Number: {num}</h1>
-
             <button onClick={() => setNum(num + 1)}>
-                Add 1
+                Increment
             </button>
-
             <button onClick={() => setNum(num - 1)}>
-                Subtract 1
+                Decrement
             </button>
         </div>
     );
@@ -419,38 +403,12 @@ function App() {
 export default App;
 ```
 
-Flow:
-
-```text
-Initial state
-num = 0
-
-       ↓ click Add 1
-
-setNum(1)
-
-       ↓
-
-React re-renders
-
-       ↓
-
-num = 1
-```
-
 ---
 
-# 16. Updating State
-
-Do not directly modify state like this:
+#  Updating State
 
 ```jsx
 num = num + 1; // ❌
-```
-
-Use the state setter:
-
-```jsx
 setNum(num + 1); // ✅
 ```
 
@@ -464,36 +422,17 @@ This is especially useful when multiple updates may happen close together.
 
 ---
 
-# 17. State Can Store Different Types
+# State Can Store Different Types
 
-State can store numbers:
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
-Strings:
+State can store 
 
 ```jsx
-const [name, setName] = useState("");
-```
+const [count, setCount] = useState(0); //numbers
+const [name, setName] = useState(""); //Strings
+const [isOpen, setIsOpen] = useState(false); //Booleans
+const [items, setItems] = useState([]); //Arrays
 
-Booleans:
-
-```jsx
-const [isOpen, setIsOpen] = useState(false);
-```
-
-Arrays:
-
-```jsx
-const [items, setItems] = useState([]);
-```
-
-Objects:
-
-```jsx
-const [user, setUser] = useState({
+const [user, setUser] = useState({ //objects
     name: "Alex",
     age: 20
 });
