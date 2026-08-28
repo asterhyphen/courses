@@ -108,6 +108,7 @@ function Card(props) {
         <div className="card">
             <h2>{props.h2Val}</h2>
             <h3>{props.h3Val}</h3>
+            <b>{props.samosa}</b>
         </div>
     );
 }
@@ -122,6 +123,7 @@ function App() {
             <Card
                 h2Val="First card's h2"
                 h3Val="First card's h3"
+                samosa="hello"
             />
 
             <Card
@@ -177,9 +179,9 @@ function Card(props) {
 Instead of passing individual values separately, data can be stored in an object.
 
 ```jsx
-const data = {
-    heading: "99% off all items!",
-    callToAction: "Everything must go!"
+const user = {
+    name: "Ahmed",
+    age: "19
 };
 ```
 
@@ -187,8 +189,8 @@ Then:
 
 ```jsx
 <PromoHeading
-    heading={data.heading}
-    callToAction={data.callToAction}
+    heading={user.name}
+    callToAction={user.age}
 />
 ```
 
@@ -314,23 +316,7 @@ function Button(props) {
 ```
 
 The problem becomes worse as the component tree grows.
-
-```text
-App
-  ↓
-Header
-  ↓
-Wrapper
-  ↓
-Section
-  ↓
-Container
-  ↓
-Button
-```
-
 If only `Button` needs the data, passing it through every level can become annoying.
-
 This leads to **Context API**.
 
 ---
@@ -338,29 +324,17 @@ This leads to **Context API**.
 #  State
 
 Props come from a parent.
-
 **State belongs to a component and can change over time.**
-
 Example:
 
 ```jsx
 function App() {
     const [num, setNum] = React.useState(0);
-
     return (
         <h1>Current Number: {num}</h1>
     );
 }
 ```
-
-Here:
-
-```text
-num       → current state value
-setNum    → function used to update state
-0         → initial value
-```
-
 ---
 
 # `useState`
@@ -440,7 +414,7 @@ const [user, setUser] = useState({ //objects
 
 ---
 
-# 18. Event Handling
+# Event Handling
 
 React uses event handler props.
 
@@ -466,18 +440,9 @@ Pass the function:
 
 ```jsx
 onClick={handleClick}
-```
-
-Do not immediately execute it:
-
-```jsx
 onClick={handleClick()} // ❌
-```
 
-For a function with arguments:
-
-```jsx
-<button onClick={() => handleClick("hello")}>
+<button onClick={() => handleClick("hello")}> //with args
     Click me
 </button>
 ```
@@ -494,22 +459,10 @@ onDoubleClick
 onMouseEnter
 onMouseLeave
 onMouseOver
-onMouseDown
-onMouseUp
-onContextMenu
-onDrag
-onDrop
-```
-
-There are also keyboard and form events:
-
-```jsx
-onKeyDown
+onKeyDown //keyboard events
 onKeyUp
 onChange
 onSubmit
-onFocus
-onBlur
 ```
 
 Example:
@@ -530,22 +483,12 @@ function Button() {
 
 ---
 
-# 20. Conditional Rendering
-
-React can render different UI depending on a condition.
-
-### Ternary operator
+# Conditional Rendering
 
 ```jsx
 condition ? valueIfTrue : valueIfFalse
-```
-
-Example:
-
-```jsx
 function CurrentImage() {
     const hour = new Date().getHours();
-
     return (
         <>
             {hour >= 6 && hour <= 18
@@ -557,28 +500,9 @@ function CurrentImage() {
 }
 ```
 
-If:
-
-```text
-hour = 14
-```
-
-then:
-
-```text
-14 >= 6  → true
-14 <= 18 → true
-```
-
-So React renders:
-
-```jsx
-<Daytime />
-```
-
 ---
 
-# 21. Conditional Rendering with State
+# Conditional Rendering with State
 
 State can control what is displayed.
 
@@ -608,72 +532,11 @@ function ModeToggler() {
 Flow:
 
 ```text
-darkModeOn = false
-      ↓
-Light Mode is On
-
-click
-      ↓
-setDarkModeOn(prev => !prev)
-      ↓
-darkModeOn = true
-      ↓
-Dark Mode is On
+darkModeOn = false so Light Mode is On then click and setDarkModeOn(prev => !prev) then darkModeOn = true now Dark Mode is On
 ```
-
 ---
 
-# 22. Logical AND Rendering
-
-If we only want something to appear when a condition is true:
-
-```jsx
-{isLoggedIn && <Dashboard />}
-```
-
-Meaning:
-
-```text
-isLoggedIn === true
-        ↓
-render Dashboard
-```
-
-If false, nothing is rendered.
-
----
-
-# 23. Variables in Components
-
-Normal JavaScript variables can be created inside components.
-
-```jsx
-function Heading() {
-    let title = "This is some heading text";
-
-    return <h1>{title}</h1>;
-}
-```
-
-But a normal variable is **not state**.
-
-This:
-
-```jsx
-let count = 0;
-```
-
-does not cause React to re-render when changed.
-
-For UI data that changes and should update the screen, use state:
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
----
-
-# 24. State vs Normal Variables
+# State vs Normal Variables
 
 | Normal Variable | State |
 |---|---|
@@ -682,21 +545,10 @@ const [count, setCount] = useState(0);
 | Changing it doesn't trigger render | Setter triggers render |
 | Useful for temporary calculations | Useful for UI data |
 
-Example:
-
-```jsx
-let name = "Alex";
-```
-
-versus:
-
-```jsx
-const [name, setName] = useState("Alex");
-```
 
 ---
 
-# 25. Passing State Through Props
+# Passing State Through Props
 
 A parent can own state and pass it to a child.
 
@@ -720,17 +572,6 @@ function Heading(props) {
 }
 ```
 
-The data flow is:
-
-```text
-State in App
-    ↓
-props
-    ↓
-Heading
-    ↓
-UI
-```
 
 ---
 
@@ -765,7 +606,7 @@ This creates a single source of truth.
 
 ---
 
-# 27. Passing Functions as Props
+# Passing Functions as Props
 
 Functions can also be passed as props.
 
@@ -871,22 +712,6 @@ The Provider makes the value available to descendants.
 </MealsContext.Provider>
 ```
 
-Think of it as:
-
-```text
-MealsProvider
-      |
-      | context value
-      ↓
-    App
-      |
-      ↓
- MealsList
-      |
-      ↓
-useMealsListContext()
-```
-
 The nested component does not need every parent to manually pass `meals`.
 
 ---
@@ -958,39 +783,7 @@ When rendering a list:
 ))}
 ```
 
-Use a stable unique identifier when possible.
-
-Prefer:
-
-```jsx
-key={item.id}
-```
-
 Avoid using array indexes as keys when the list can be reordered, inserted into, or deleted from.
-
----
-
-# 34. Component Composition
-
-React components can be combined to form larger components.
-
-Example:
-
-```jsx
-function Main() {
-    return (
-        <Header>
-            <Wrapper>
-                <Button />
-            </Wrapper>
-        </Header>
-    );
-}
-```
-
-This is **composition**.
-
-Rather than making components know about every possible child, allow them to receive children.
 
 ---
 
@@ -2646,53 +2439,3 @@ expect(handleSubmit).toHaveBeenCalledWith({
 Very useful for testing whether your component correctly calls functions.
 
 ---
-
-### 10. Testing Different Scenarios
-
-Your feedback-form example tests two situations:
-
-```text
-Score < 5
-    ↓
-Feedback required
-    ↓
-Submit with feedback
-```
-
-and:
-
-```text
-Score > 5
-    ↓
-Feedback not required
-    ↓
-Submit without feedback
-```
-
-The idea is:
-
-**Don't just test whether something works — test different possible user situations.**
-
----
-
-# 🧠 Final Cheat Sheet
-
-|Concept|Remember|
-|---|---|
-|`useEffect`|Run side effects|
-|Dependency `[]`|Run after initial render|
-|Cleanup function|Remove listeners/timers/subscriptions|
-|HOC|Add reusable behavior to components|
-|`children`|Components/elements passed inside another component|
-|`React.Children.map()`|Iterate over children|
-|`cloneElement()`|Add/modify props on children|
-|React Testing Library|Test React UI|
-|`render()`|Render component for testing|
-|`screen`|Find elements|
-|`fireEvent`|Simulate interaction|
-|`jest.fn()`|Mock a function|
-|`expect()`|Assert expected behavior|
-
-### The big idea of this last set:
-
-**React isn't just about displaying UI. It's about reusing behavior, managing side effects, composing components, and testing how users interact with them.**
