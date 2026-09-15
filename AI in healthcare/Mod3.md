@@ -68,7 +68,7 @@
 
 ### *Cost-based reimbursement:*
 
-- Hospital presents its costs to the intermediary.
+-  
 - Payment is based on the **cost of care**.
 
 ---

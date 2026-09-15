@@ -573,36 +573,6 @@ function Heading(props) {
 ```
 
 
----
-
-# 26. Lifting State Up
-
-If multiple components need the same changing data, move the state to their closest common parent.
-
-Example:
-
-```text
-       App
-      /   \
-   Input  Display
-```
-
-If both `Input` and `Display` need the same value, keep the state in `App`.
-
-```jsx
-function App() {
-    const [name, setName] = useState("");
-
-    return (
-        <>
-            <Input name={name} setName={setName} />
-            <Display name={name} />
-        </>
-    );
-}
-```
-
-This creates a single source of truth.
 
 ---
 
@@ -638,7 +608,7 @@ This allows a child to trigger behavior controlled by its parent.
 
 ---
 
-# 28. Context API
+#  Context API
 
 Context API helps share data across components without manually passing props through every level.
 
@@ -702,7 +672,7 @@ function MealsList() {
 
 ---
 
-# 30. Context Provider
+#  Context Provider
 
 The Provider makes the value available to descendants.
 
@@ -1185,28 +1155,16 @@ For arrays, avoid:
 
 ```jsx
 items.push(newItem); // ❌
-```
-
-Instead:
-
-```jsx
+//Instead:
 setItems(prev => [
     ...prev,
     newItem
 ]);
-```
-
-For removing an item:
-
-```jsx
+//For removing an item:
 setItems(prev =>
     prev.filter(item => item.id !== id)
 );
-```
-
-For updating an object:
-
-```jsx
+//For updating an object:
 setUser(prev => ({
     ...prev,
     name: "Alex"
@@ -1214,54 +1172,6 @@ setUser(prev => ({
 ```
 
 The spread operator creates a new object/array rather than mutating the existing state.
-
----
-
-# 50. Conditional UI + State + Events
-
-These three concepts frequently work together.
-
-Example:
-
-```jsx
-function Toggle() {
-    const [isOn, setIsOn] = useState(false);
-
-    const handleClick = () => {
-        setIsOn(prev => !prev);
-    };
-
-    return (
-        <div>
-            <h1>
-                {isOn ? "ON" : "OFF"}
-            </h1>
-
-            <button onClick={handleClick}>
-                Toggle
-            </button>
-        </div>
-    );
-}
-```
-
-The complete chain:
-
-```text
-User clicks
-    ↓
-Event handler runs
-    ↓
-State setter runs
-    ↓
-State changes
-    ↓
-Component renders again
-    ↓
-Conditional JSX changes
-```
-
-This is one of the most important React patterns.
 
 ---
 
@@ -1290,15 +1200,6 @@ function AppProvider({ children }) {
     );
 }
 ```
-
-Any descendant can access:
-
-```jsx
-const { theme, toggleTheme } =
-    useContext(AppContext);
-```
-
-This can eliminate large amounts of prop drilling.
 
 ---
 
@@ -1426,82 +1327,6 @@ App
 ```
 
 Keep components understandable and composable.
-
----
-
-# 56. Suggested React Project Structure
-
-A common structure:
-
-```text
-src/
-├── components/
-│   ├── Button.jsx
-│   ├── Card.jsx
-│   └── Navbar.jsx
-│
-├── pages/
-│   ├── Home.jsx
-│   └── Dashboard.jsx
-│
-├── hooks/
-│   ├── useAuth.js
-│   └── useFetch.js
-│
-├── context/
-│   └── AppContext.jsx
-│
-├── services/
-│   └── api.js
-│
-├── assets/
-│   └── images/
-│
-├── App.jsx
-└── main.jsx
-```
-
-The exact structure depends on the project.
-
----
-
-# 57. React Data Flow
-
-The default mental model is:
-
-```text
-Parent
-  ↓
-Props
-  ↓
-Child
-```
-
-For changing data:
-
-```text
-State
-  ↓
-Render
-  ↓
-User interaction
-  ↓
-Event handler
-  ↓
-State update
-  ↓
-Render again
-```
-
-For shared application data:
-
-```text
-Context Provider
-       ↓
-     Context
-       ↓
-  Components
-```
 
 ---
 
@@ -1782,36 +1607,6 @@ When building a React feature, ask:
 
 That mental model will take you surprisingly far.
 
----
-
-# 65. Topics to Add From Future Screenshots
-
-This document is intentionally structured to keep growing.
-
-Future screenshots can be added under the appropriate sections for topics such as:
-
-- `useEffect` in depth
-- API calls
-- React Router
-- Nested routes
-- Authentication
-- Context patterns
-- `useReducer`
-- Forms and validation
-- Custom hooks
-- `useRef`
-- Performance
-- Memoization
-- Error boundaries
-- Lazy loading
-- Suspense
-- Testing
-- State-management libraries
-- Server state
-- React architecture
-- Production deployment
-- Security considerations
-- Advanced component patterns
 
 ---
 
