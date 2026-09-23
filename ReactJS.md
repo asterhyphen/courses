@@ -321,7 +321,7 @@ This leads to **Context API**.
 
 ---
 
-#  State
+# State
 
 Props come from a parent.
 **State belongs to a component and can change over time.**
@@ -449,7 +449,7 @@ onClick={handleClick()} // ❌
 
 ---
 
-# 19. Common React Events
+# Common React Events
 
 Some commonly used events:
 
@@ -535,19 +535,6 @@ Flow:
 darkModeOn = false so Light Mode is On then click and setDarkModeOn(prev => !prev) then darkModeOn = true now Dark Mode is On
 ```
 ---
-
-# State vs Normal Variables
-
-| Normal Variable | State |
-|---|---|
-| `let count = 0` | `useState(0)` |
-| React does not track changes | React tracks changes |
-| Changing it doesn't trigger render | Setter triggers render |
-| Useful for temporary calculations | Useful for UI data |
-
-
----
-
 # Passing State Through Props
 
 A parent can own state and pass it to a child.
@@ -608,7 +595,7 @@ This allows a child to trigger behavior controlled by its parent.
 
 ---
 
-#  Context API
+# Context API
 
 Context API helps share data across components without manually passing props through every level.
 
@@ -638,7 +625,7 @@ export default MealsProvider;
 
 ---
 
-# 29. Consuming Context
+# Consuming Context
 
 A component can read the context using `useContext`.
 
@@ -672,7 +659,7 @@ function MealsList() {
 
 ---
 
-#  Context Provider
+# Context Provider
 
 The Provider makes the value available to descendants.
 
@@ -684,39 +671,10 @@ The Provider makes the value available to descendants.
 
 The nested component does not need every parent to manually pass `meals`.
 
----
-
-# 31. Context vs Props
-
-### Props
-
-Best when data is needed by a direct child or a small part of the tree.
-
-```text
-Parent
-  ↓
-Child
-```
-
-### Context
-
-Useful when many components at different levels need the same data.
-
-```text
-Provider
- ├── Header
- ├── Main
- │    └── ProductList
- │         └── Product
- └── Footer
-```
-
-Context can prevent unnecessary prop drilling.
 
 ---
 
-# 32. Lists and Rendering Multiple Components
-
+# Lists and Rendering Multiple Components
 React can render arrays using `.map()`.
 
 ```jsx
@@ -743,129 +701,9 @@ The `key` helps React identify individual items.
 
 ---
 
-# 33. Keys
-
-When rendering a list:
-
-```jsx
-{items.map(item => (
-    <Card key={item.id} />
-))}
-```
-
-Avoid using array indexes as keys when the list can be reordered, inserted into, or deleted from.
-
----
-
-# 35. A Component Tree
-
-A real application might look like:
-
-```text
-App
-├── Navbar
-│   ├── Logo
-│   └── Navigation
-├── Hero
-├── ProductList
-│   ├── ProductCard
-│   ├── ProductCard
-│   └── ProductCard
-├── Footer
-└── Modal
-```
-
-React applications are essentially trees of components.
-
-Understanding the component tree makes props, state, context and rendering much easier.
-
----
-
-# 36. React Rendering Mental Model
-
-Think in this order:
-
-```text
-State / Props change
-        ↓
-React renders component
-        ↓
-JSX is evaluated
-        ↓
-React determines UI changes
-        ↓
-Browser UI updates
-```
-
-You normally describe **what the UI should look like** for the current state rather than manually changing DOM elements.
-
----
-
-# 37. Declarative vs Imperative Thinking
-
-### Imperative
-
-Tell the browser exactly what to do:
-
-```text
-Find button
-Change text
-Hide element
-Change class
-```
-
-### Declarative
-
-Describe what the UI should be:
-
-```jsx
-{isLoggedIn ? <Dashboard /> : <Login />}
-```
-
-React handles the DOM updates.
-
----
-
-# 38. Functional Components
-
-Modern React primarily uses function components.
-
-```jsx
-function App() {
-    return <h1>Hello React</h1>;
-}
-```
-
-Components can use hooks such as:
-
-```jsx
-useState
-useEffect
-useContext
-useReducer
-useMemo
-useCallback
-useRef
-```
-
----
-
-# 39. Hooks — Core Idea
+# Hooks — Core Idea
 
 Hooks allow function components to use React features.
-
-Example:
-
-```jsx
-import { useState } from "react";
-```
-
-Then:
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
 ### Rules of Hooks
 
 Hooks should generally:
@@ -879,14 +717,9 @@ Good:
 ```jsx
 function App() {
     const [count, setCount] = useState(0);
-
     return <h1>{count}</h1>;
 }
-```
-
-Bad:
-
-```jsx
+//Bad:
 if (something) {
     const [count, setCount] = useState(0);
 }
@@ -894,7 +727,7 @@ if (something) {
 
 ---
 
-# 40. `useEffect`
+# `useEffect`
 
 `useEffect` is used for synchronizing a component with external systems or performing side effects.
 
@@ -914,29 +747,9 @@ Common uses include:
 - Browser APIs
 - Synchronizing with external state
 
-Basic dependency patterns:
-
-```jsx
-useEffect(() => {
-    // runs after renders
-});
-```
-
-```jsx
-useEffect(() => {
-    // runs on mount
-}, []);
-```
-
-```jsx
-useEffect(() => {
-    // runs when count changes
-}, [count]);
-```
-
 ---
 
-# 41. Cleanup Functions
+# Cleanup Functions
 
 Some effects need cleanup.
 
@@ -951,11 +764,6 @@ useEffect(() => {
     };
 }, []);
 ```
-
-The returned function performs cleanup.
-
-This matters for things such as:
-
 - Timers
 - Event listeners
 - Subscriptions
@@ -963,64 +771,9 @@ This matters for things such as:
 
 ---
 
-# 42. Forms
-
-React forms commonly use state.
-
-```jsx
-function Form() {
-    const [name, setName] = useState("");
-
-    return (
-        <input
-            value={name}
-            onChange={e => setName(e.target.value)}
-        />
-    );
-}
-```
-
-This is called a **controlled input**.
-
-The value is controlled by React state.
-
----
-
-# 43. Handling Form Submission
-
-```jsx
-function Form() {
-    const [name, setName] = useState("");
-
-    const handleSubmit = event => {
-        event.preventDefault();
-
-        console.log(name);
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                value={name}
-                onChange={e => setName(e.target.value)}
-            />
-
-            <button type="submit">
-                Submit
-            </button>
-        </form>
-    );
-}
-```
-
-`event.preventDefault()` prevents the browser's normal form submission behavior.
-
----
-
-# 44. `useRef`
+# `useRef`
 
 `useRef` stores a mutable value that does not cause a re-render when changed.
-
 It is also commonly used to access a DOM element.
 
 ```jsx
@@ -1047,7 +800,7 @@ function App() {
 
 ---
 
-# 45. `useReducer`
+# `useReducer`
 
 For more complex state logic, `useReducer` can be useful.
 
@@ -1087,67 +840,15 @@ And:
 dispatch({ type: "increment" });
 ```
 
-Mental model:
-
-```text
-UI
- ↓
-dispatch(action)
- ↓
-reducer
- ↓
-new state
- ↓
-render
-```
-
 ---
-
-# 46. `useMemo`
+#  `useMemo`
 
 `useMemo` can cache the result of an expensive calculation.
-
-```jsx
-const result = useMemo(() => {
-    return expensiveCalculation(data);
-}, [data]);
-```
-
 Do not use it everywhere automatically.
-
 Use performance optimizations when there is a real reason.
 
 ---
-
-# 47. `useCallback`
-
-`useCallback` can preserve a function reference between renders.
-
-```jsx
-const handleClick = useCallback(() => {
-    console.log("clicked");
-}, []);
-```
-
-It is mainly useful when function identity matters, for example when working with memoized child components.
-
----
-
-# 48. `React.memo`
-
-`React.memo` can prevent a component from re-rendering when its props have not changed.
-
-```jsx
-const Card = React.memo(function Card({ title }) {
-    return <h2>{title}</h2>;
-});
-```
-
-Again, this is a performance tool, not something every component needs.
-
----
-
-# 49. Immutability
+# Immutability
 
 React state should be treated as immutable.
 
@@ -1203,7 +904,7 @@ function AppProvider({ children }) {
 
 ---
 
-# 52. Custom Hooks
+# Custom Hooks
 
 A custom hook is a reusable function whose name begins with `use`.
 
@@ -1222,11 +923,6 @@ function useCounter() {
         increment
     };
 }
-```
-
-Use it:
-
-```jsx
 function Counter() {
     const { count, increment } = useCounter();
 
@@ -1240,94 +936,6 @@ function Counter() {
     );
 }
 ```
-
-Custom hooks allow logic to be shared without duplicating it across components.
-
----
-
-# 53. Data Fetching
-
-A typical client-side data request can be performed with `fetch`.
-
-```jsx
-useEffect(() => {
-    async function loadData() {
-        const response = await fetch("/api/products");
-        const data = await response.json();
-
-        setProducts(data);
-    }
-
-    loadData();
-}, []);
-```
-
-A production application should also consider:
-
-```text
-loading
-error
-success
-empty state
-cancellation/race conditions
-caching
-```
-
-For larger applications, a dedicated data-fetching library can sometimes simplify server-state management.
-
----
-
-# 54. Loading and Error States
-
-Example:
-
-```jsx
-if (loading) {
-    return <p>Loading...</p>;
-}
-
-if (error) {
-    return <p>Something went wrong.</p>;
-}
-
-return <ProductList products={products} />;
-```
-
-A good UI should not assume that data always arrives successfully.
-
----
-
-# 55. Component Responsibilities
-
-A good component should ideally have a clear responsibility.
-
-Bad:
-
-```text
-App
- ├── authentication
- ├── API calls
- ├── giant form
- ├── every card
- ├── every modal
- ├── every piece of business logic
- └── 1000 lines of JSX
-```
-
-Better:
-
-```text
-App
- ├── Navbar
- ├── Dashboard
- │    ├── Stats
- │    ├── UserList
- │    └── UserCard
- └── Footer
-```
-
-Keep components understandable and composable.
-
 ---
 
 # 58. Props vs State vs Context
@@ -1349,31 +957,15 @@ Keep components understandable and composable.
 
 ```jsx
 onClick={handleClick()} // ❌
-```
-
-Use:
-
-```jsx
 onClick={handleClick} // ✅
-```
-
-or:
-
-```jsx
 onClick={() => handleClick()} // ✅
 ```
 
 ---
-
 ### Mistake 2 — Mutating state
 
 ```jsx
 items.push(item); // ❌
-```
-
-Use:
-
-```jsx
 setItems(prev => [...prev, item]); // ✅
 ```
 
@@ -1384,12 +976,7 @@ setItems(prev => [...prev, item]); // ✅
 ```jsx
 items.map(item => (
     <Card />
-))
-```
-
-Prefer:
-
-```jsx
+)) //no
 items.map(item => (
     <Card key={item.id} />
 ))
@@ -1407,24 +994,7 @@ Props should be treated as read-only.
 
 ---
 
-### Mistake 5 — Using normal variables for UI state
-
-```jsx
-let count = 0;
-count++;
-```
-
-This does not tell React to re-render.
-
-Use:
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
----
-
-### Mistake 6 — Calling hooks conditionally
+### Mistake 5 — Calling hooks conditionally
 
 ```jsx
 if (loggedIn) {
@@ -1435,222 +1005,6 @@ if (loggedIn) {
 Hooks should be called consistently at the top level.
 
 ---
-
-# 60. The Big Picture
-
-The React concepts learned so far connect like this:
-
-```text
-                    React
-                      │
-          ┌───────────┴───────────┐
-          │                       │
-      Components               JSX
-          │                       │
-          ├──────────────┐        │
-          │              │        │
-        Props          State      │
-          │              │        │
-          │              ↓        │
-          │         useState      │
-          │              │        │
-          └──────┬───────┘        │
-                 ↓                │
-             Event Handlers       │
-                 │                │
-                 ↓                │
-            State Updates         │
-                 │                │
-                 ↓                │
-             Re-render            │
-                 │                │
-                 └──────→ JSX ←───┘
-
-For shared data:
-
-Context
-   ↓
-Provider
-   ↓
-useContext
-   ↓
-Components
-```
-
----
-
-
-
----
-
-# 62. Quick Revision Sheet
-
-## JSX
-
-```jsx
-<h1>{variable}</h1>
-```
-
-JavaScript expressions go inside `{}`.
-
-## Component
-
-```jsx
-function App() {
-    return <h1>Hello</h1>;
-}
-```
-
-## Props
-
-```jsx
-<Card title="Hello" />
-```
-
-```jsx
-function Card({ title }) {
-    return <h2>{title}</h2>;
-}
-```
-
-## Children
-
-```jsx
-<Card>
-    <p>Hello</p>
-</Card>
-```
-
-```jsx
-function Card({ children }) {
-    return <div>{children}</div>;
-}
-```
-
-## State
-
-```jsx
-const [count, setCount] = useState(0);
-```
-
-## Event
-
-```jsx
-<button onClick={handleClick}>
-    Click
-</button>
-```
-
-## Conditional rendering
-
-```jsx
-{isLoggedIn ? <Dashboard /> : <Login />}
-```
-
-## List
-
-```jsx
-items.map(item => (
-    <Card key={item.id} />
-))
-```
-
-## Context
-
-```jsx
-const Context = createContext(null);
-```
-
-```jsx
-<Context.Provider value={data}>
-    {children}
-</Context.Provider>
-```
-
-```jsx
-const data = useContext(Context);
-```
-
-## Effect
-
-```jsx
-useEffect(() => {
-    // side effect
-}, []);
-```
-
-
----
-
-# 64. One Mental Model to Remember
-
-When building a React feature, ask:
-
-```text
-1. What component should own this data?
-2. Is this data changing?
-3. If it changes, should the UI update?
-4. If yes → probably state.
-5. Does a child need the data?
-6. Pass it as props.
-7. Do many distant components need it?
-8. Consider Context.
-9. Does the user interact with it?
-10. Add an event handler.
-11. Does the UI change after the interaction?
-12. Update state.
-13. Is repeated UI involved?
-14. Use a component + map().
-15. Is the UI different depending on a condition?
-16. Use conditional rendering.
-```
-
-That mental model will take you surprisingly far.
-
-
----
-
-# Final React Mental Model
-
-```text
-                COMPONENTS
-                    │
-        ┌───────────┼───────────┐
-        ↓           ↓           ↓
-      PROPS       STATE      CHILDREN
-        │           │
-        │           ↓
-        │        EVENTS
-        │           │
-        │           ↓
-        │      STATE UPDATE
-        │           │
-        └───────→ RE-RENDER
-                    │
-                    ↓
-                   JSX
-                    │
-                    ↓
-                    UI
-
-       For shared state/data:
-                    │
-                    ↓
-                 CONTEXT
-                    │
-                    ↓
-              useContext()
-```
-
-**Core principle:**
-
-> **React UI is a function of state and props.**
-
-```text
-UI = f(props, state)
-```
-
-Learn to follow the data, and React starts feeling much less mysterious.
 ## React Advanced — Summary of This Set
 
 ### 1. `useState`
@@ -1711,15 +1065,10 @@ Used for **side effects** — things that happen outside normal rendering.
 Examples:
 
 - API calls
-    
 - Logging
-    
 - Timers
-    
 - Subscriptions
-    
 - DOM interactions
-    
 
 ```jsx
 useEffect(() => {
@@ -2146,31 +1495,6 @@ This lets a parent component dynamically work with its children.
 
 ---
 
-### 6. `React.cloneElement()`
-
-Used to create a modified copy of an existing React element.
-
-From your Radio Group example:
-
-```jsx
-React.cloneElement(child, {
-  onChange,
-  checked: child.props.value === selected
-});
-```
-
-So the parent can inject/change props on its children.
-
-```text
-Original child
-     ↓
-cloneElement()
-     ↓
-Child + additional props
-```
-
----
-
 ### 7. `React.Children.map()`
 
 Useful when working with `children`:
@@ -2183,34 +1507,6 @@ React.Children.map(children, (child) => {
 
 It safely handles React's `children` structure instead of assuming it's always a normal array.
 
----
-
-### 8. React Testing Library
-
-The last part introduces **testing React components**.
-
-Important imports:
-
-```jsx
-import {
-  fireEvent,
-  render,
-  screen
-} from "@testing-library/react";
-```
-
-- `render()` → renders the component for testing
-    
-- `screen` → finds elements
-    
-- `fireEvent` → simulates user interactions
-    
-
-Example:
-
-```jsx
-fireEvent.click(submitButton);
-```
 
 ---
 
