@@ -1,5 +1,3 @@
-# MODULE 5 — HEALTH CARE PRODUCTS, PRESCRIPTION DRUGS & QUALITY MEASUREMENT
-
 ## 1. Health Care Product Regulation
 
 ### Definition
