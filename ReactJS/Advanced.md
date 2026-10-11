@@ -8,12 +8,9 @@ const [restaurantName, setRestaurantName] = useState("Lemon");
 setRestaurantName("Little Lemon");
 ```
 
-- `restaurantName` → current value
-    
+- `restaurantName` → current value    
 - `setRestaurantName` → changes value
-    
 - Updating state causes the component to **re-render**.
-    
 
 ### 2. Array Destructuring
 
